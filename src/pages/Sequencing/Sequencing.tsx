@@ -10,7 +10,7 @@ import penguinEyes from '../../assets/penguin/eyes.svg';
 import penguinEyeDetails from '../../assets/penguin/eye_detail.svg';
 import "./Sequencing.css";
 import SVGDrawing from "../../components/SVGDrawing/SVGDrawing";
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 
 
 
@@ -25,7 +25,7 @@ let penguinParts = [
     {"svg":penguinEyeDetails, "name":"Eye Details", "code":"drawEyeDetails()"}
 ];
 
-const img = <p>Image by <a href=" https://www.vectorportal.com" >Vectorportal.com</a>,  <a class="external text" href="https://creativecommons.org/licenses/by/4.0/" >CC BY</a></p>
+const img = <p>Image by <a href=" https://www.vectorportal.com" >Vectorportal.com</a>,  <a className="external text" href="https://creativecommons.org/licenses/by/4.0/" >CC BY</a></p>
 
 
 function Sequencing() {

@@ -1,8 +1,17 @@
-import { use } from "react";
+
 import { useState, useEffect } from "react";
 import "./SVGButton.css";
 
-function SVGButton({ key, className, onClick, resetDisabled, isClicked, setIsClicked, text}) {
+interface SVGButtonProps {
+    key: number;
+    className: string;
+    onClick: () => void;
+    isClicked: boolean;
+    setIsClicked: (clicked: boolean) => void;
+    text: string;
+}
+
+function SVGButton({ key, className, onClick, isClicked, setIsClicked, text} : SVGButtonProps) {
 
     const [isHovered, setIsHovered] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -21,12 +30,6 @@ function SVGButton({ key, className, onClick, resetDisabled, isClicked, setIsCli
             onClick();
         }
     };
-    const handleDisable = () => {
-        if (resetDisabled) {
-            setIsDisabled(false);
-        }
-    };
-
     useEffect(() => {
         if (!isClicked){
             setIsDisabled(false);
@@ -37,6 +40,8 @@ function SVGButton({ key, className, onClick, resetDisabled, isClicked, setIsCli
     const buttonStyle = {
         cursor: isDisabled ? "not-allowed" : "pointer",
         opacity: isDisabled ? 0.5 : 1,
+        // Hover effect
+        backgroundColor: isHovered ?  "#A9927D": "#22333B",
     };
 
     

@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, JSX } from "react";
 import SVGButton from "../SVGButton/SVGButton";
 import "./SVGDrawing.css";
-
-// Shuffle outputparts
-const shuffleItems = (parts: object[]) => {
-    for (let i = parts.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [parts[i], parts[j]] = [parts[j], parts[i]];
-    }
-    return parts;
-};
 
 interface svgObject{
     svg: string;
@@ -17,14 +8,26 @@ interface svgObject{
     code: string;
 }
 
-function SVGDrawing(props: {svgs:svgObject[], expectedImage: string, credit: string}) {
+// Shuffle outputparts
+const shuffleItems = (parts: svgObject[]):svgObject[] => {
+    const shuffled = [...parts]; // Create a copy
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
+
+
+
+function SVGDrawing(props: {svgs:svgObject[], expectedImage: string, credit: JSX.Element}) {
     // Create context
-    const [render,setRenderer] = useState([]);
+    const [render,setRenderer] = useState<svgObject[]>([]);
     const [output, setOutput] = useState(<div className="output"> </div>);
     const [outputCode, setOutputCode] = useState(<div className="output-code"> </div>);
-    const [items, setItems] = useState(props.svgs);
+    const [items, setItems] = useState<svgObject[]>(props.svgs);
     const [isClicked, setIsClicked] = useState(false);
-    const [reset, setReset] = useState(false);
+    const [reset] = useState(false);
     const [showTitle, setShowTitle] = useState(false);
     const [showExpectedImage, setShowExpectedImage] = useState(false);
     
@@ -33,7 +36,7 @@ function SVGDrawing(props: {svgs:svgObject[], expectedImage: string, credit: str
             return <img src={part.svg} key={index} className="output-part" alt="output part" />
         });
         setOutput(<div className="output">{svgs}</div>);
-        const code = render.map((part, index) => {
+        const code = render.map((part:svgObject, index) => {
             return <div key={index} className="output-part-code"><div className="line-number">{index+1}</div><div className='code'>{part.code}</div></div>});
         setOutputCode(<div className="output-code">   
                 {code}
@@ -48,16 +51,18 @@ function SVGDrawing(props: {svgs:svgObject[], expectedImage: string, credit: str
         console.log("rendererState: ", render);
     };
 
+    
+
     const tmp = items.map((part:svgObject, index) => {
+        
         return (
         
-            <SVGButton svg={part.svg} key={index} className="output-part-button" onClick= {()=>
+            <SVGButton key={index} className="output-part-button" onClick= {()=>
                 {
                     setRenderer((prev) => [...prev, part]);
                     handleClick(part.svg);
                 }
             }
-            resetDisabled={reset}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
             text={showTitle ? `Draw ${part.name}`:`Draw Part ${index + 1}` }
@@ -65,19 +70,28 @@ function SVGDrawing(props: {svgs:svgObject[], expectedImage: string, credit: str
         
     )});
 
-    const buttons = tmp.reduce((accumulator:JSX[], currentValue:ReactNode, index:number, array)=>{
-        if (index % 2 === 0 && index !== 0) {
-
-            accumulator.push(<div className="button-row" key={index}>{array.slice(index - 2, index)}</div>);
-
-            console.log("array: ", accumulator);
+    const buttons = tmp.reduce((accumulator: JSX.Element[], currentValue: JSX.Element, index: number, array:JSX.Element[]) => {
+        // If the index is even, create a new row
+        
+        if (index % 2 === 0) {
+            if (index === array.length-1) {
+                accumulator.push(
+                    <div className="button-row" key={`row-${Math.floor(index / 2)}`}>
+                        {currentValue}
+                    </div>
+                );
+            }
+            else{
+                accumulator.push(
+                    <div className="button-row" key={`row-${Math.floor(index / 2)}`}>
+                        {tmp.slice(index, index + 2)} {/* Take the current and next button */}
+                    </div>
+                );
+            }
         }
-        if (index === array.length -1) {
-            accumulator.push(<div className="button-row" key={index}>{array.slice(index - 1, index+1)}</div>);
-        }
+        
         return accumulator;
-    }
-    ,[]);
+    }, []);
 
     
     const handleReset = () => {
