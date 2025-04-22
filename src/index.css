@@ -74,21 +74,24 @@ nav {
   position: absolute;
   top: 0;
   left:0;
-
+  background-color: #5e503f;
+  width:100vw;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-item {
   margin: 0 1em;
   padding:2rem;
-  background-color: #22333B;
   
 }
-.nav-item a {
+.nav-item{
   color: #A9927D;
   text-decoration: none;
 }
-.nav-item a:hover {
+.nav-item:hover {
   text-decoration: underline;
+  background-color: #493e30;
 
 }
 

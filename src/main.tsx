@@ -9,9 +9,9 @@ import { BrowserRouter, Routes, Route } from 'react-router'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <nav>
-      <div className='nav-item'><a href="/">Home</a></div>
-      <div className="nav-item"><a href="/programming">Programming</a></div>
-      <div className='nav-item'><a href="/databases">Databases</a></div>
+      <a href="/"><div className='nav-item'>Home</div></a>
+      <a href="/programming"><div className="nav-item">Programming</div></a>
+      <a href="/databases"><div className='nav-item'>Databases</div></a>
     </nav>
     <BrowserRouter>
     <Routes>
@@ -22,7 +22,7 @@ createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
     <footer>
       Website created by <a href="https://www.jadenshek.com" target='_blank'>Jaden Shek</a>
-    
+
     </footer>
   </StrictMode>
 )

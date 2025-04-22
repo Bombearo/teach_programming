@@ -108,7 +108,7 @@ function SVGDrawing(props: {svgs:svgObject[], expectedImage: string, credit: JSX
 
     return <>
     <div className='button-container'>
-        <h2 className="title">Let's Draw</h2>
+        <h2 className="title">Drawing Buttons</h2>
         {!reset && buttons}
         <div className="menu-buttons">
         <button className="menu-button" onClick={handleReset}
